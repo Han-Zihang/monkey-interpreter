@@ -26,8 +26,15 @@ const (
 	IDENT = "IDENT" // add, foobar, x, y ...
 	INT   = "INT"
 
-	ASSIGN = "="
-	PLUS   = "+"
+	ASSIGN   = "="
+	PLUS     = "+"
+	MINUS    = "-"
+	BANG     = "!"
+	ASTERISK = "*"
+	SLASH    = "/"
+
+	LT = "<"
+	GT = ">"
 
 	COMMA     = ","
 	SEMICOLON = ";"
