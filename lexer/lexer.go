@@ -4,6 +4,7 @@ import "monkey-interpreter/token"
 
 // Lexer
 // 目前只支持 Unicode 字符
+// 数字方面只支持十进制整数
 type Lexer struct {
 	input        string
 	position     int  // 当前字符的位置
@@ -28,7 +29,7 @@ func (l *Lexer) readChar() {
 }
 
 func (l *Lexer) NextToken() token.Token {
-
+	l.skipWhitespace()
 	var tk token.Token
 	switch l.ch {
 	case '=':
@@ -55,6 +56,10 @@ func (l *Lexer) NextToken() token.Token {
 			tk.Literal = l.readIdentifier()
 			tk.Type = token.LookupIdent(tk.Literal)
 			return tk
+		} else if isDigit(l.ch) {
+			tk.Type = token.INT
+			tk.Literal = l.readNumber()
+			return tk
 		} else {
 			tk = newToken(token.ILLEGAL, l.ch)
 		}
@@ -63,13 +68,25 @@ func (l *Lexer) NextToken() token.Token {
 	return tk
 }
 
+func (l *Lexer) readNumber() string {
+	position := l.position
+	for isDigit(l.ch) {
+		l.readChar()
+	}
+	return l.input[position:l.position]
+}
+
+func isDigit(ch byte) bool {
+	return '0' <= ch && ch <= '9'
+}
+
 func (l *Lexer) skipWhitespace() {
 	for {
 		switch l.ch {
 		case ' ', '\t', '\n', '\r':
 			l.readChar()
 		default:
-			break
+			return
 		}
 	}
 }
