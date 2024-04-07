@@ -20,16 +20,9 @@ type Parser struct {
 }
 
 func New(l *lexer.Lexer) *Parser {
-	p := &Parser{
-		l:              l,
-		prefixParseFns: make(map[token.Type]prefixParseFn),
-		infixParseFns:  make(map[token.Type]infixParseFn),
-	}
-
-	p.registerPrefix(token.IDENT, p.parseIdentifier)
-	p.registerPrefix(token.INT, p.parseIntegerLiteral)
-	p.registerPrefix(token.BANG, p.parsePrefixExpression)
-	p.registerPrefix(token.MINUS, p.parsePrefixExpression)
+	p := &Parser{l: l}
+	p.registerPrefixFns()
+	p.registerInfixFns()
 
 	// 设置 curToken 和 peekToken
 	p.nextToken()
@@ -69,4 +62,28 @@ func (p *Parser) peekTokenIs(t token.Type) bool {
 
 func (p *Parser) parseIdentifier() ast.Expression {
 	return &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
+}
+
+// registerPrefixFns
+// 注册各种 token 对应的前缀处理函数
+func (p *Parser) registerPrefixFns() {
+	p.prefixParseFns = make(map[token.Type]prefixParseFn)
+	p.registerPrefix(token.IDENT, p.parseIdentifier)
+	p.registerPrefix(token.INT, p.parseIntegerLiteral)
+	p.registerPrefix(token.BANG, p.parsePrefixExpression)
+	p.registerPrefix(token.MINUS, p.parsePrefixExpression)
+}
+
+// registerInfixFns
+// 注册各种 token 对应的中缀处理函数
+func (p *Parser) registerInfixFns() {
+	p.infixParseFns = make(map[token.Type]infixParseFn)
+	p.registerInfix(token.PLUS, p.parseInfixExpression)
+	p.registerInfix(token.MINUS, p.parseInfixExpression)
+	p.registerInfix(token.SLASH, p.parseInfixExpression)
+	p.registerInfix(token.ASTERISK, p.parseInfixExpression)
+	p.registerInfix(token.EQ, p.parseInfixExpression)
+	p.registerInfix(token.NOT_EQ, p.parseInfixExpression)
+	p.registerInfix(token.LT, p.parseInfixExpression)
+	p.registerInfix(token.GT, p.parseInfixExpression)
 }
