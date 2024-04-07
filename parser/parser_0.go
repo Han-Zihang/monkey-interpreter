@@ -51,9 +51,10 @@ func (p *Parser) expectPeek(t token.Type) bool {
 	if p.peekTokenIs(t) {
 		p.nextToken()
 		return true
+	} else {
+		p.peekError(t)
+		return false
 	}
-	p.peekError(t)
-	return false
 }
 
 func (p *Parser) peekTokenIs(t token.Type) bool {
@@ -75,6 +76,7 @@ func (p *Parser) registerPrefixFns() {
 	p.registerPrefix(token.TRUE, p.parseBoolean)
 	p.registerPrefix(token.FALSE, p.parseBoolean)
 	p.registerPrefix(token.LPAREN, p.parseGroupedExpression)
+	p.registerPrefix(token.IF, p.parseIfExpression)
 }
 
 // registerInfixFns
