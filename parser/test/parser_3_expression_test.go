@@ -1,8 +1,9 @@
-package parser
+package test
 
 import (
 	"monkey-interpreter/ast"
 	"monkey-interpreter/lexer"
+	"monkey-interpreter/parser"
 	"testing"
 )
 
@@ -10,7 +11,7 @@ func TestIdentifierExpression(t *testing.T) {
 	input := "foobar;"
 
 	l := lexer.New(input)
-	p := New(l)
+	p := parser.New(l)
 	program := p.ParseProgram()
 	checkParserErrors(t, p)
 
