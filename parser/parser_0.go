@@ -27,6 +27,7 @@ func New(l *lexer.Lexer) *Parser {
 	}
 
 	p.registerPrefix(token.IDENT, p.parseIdentifier)
+	p.registerPrefix(token.INT, p.parseIntegerLiteral)
 
 	// 设置 curToken 和 peekToken
 	p.nextToken()
