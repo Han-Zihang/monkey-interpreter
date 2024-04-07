@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"fmt"
 	"monkey-interpreter/ast"
 	"monkey-interpreter/token"
 )
@@ -38,3 +39,8 @@ const (
 	PREFIX  // -X or !X
 	CALL    // f(x)
 )
+
+func (p *Parser) noPrefixFnError(t token.Type) {
+	msg := fmt.Sprintf("no prefix parse function for %s found", t)
+	p.errors = append(p.errors, msg)
+}
