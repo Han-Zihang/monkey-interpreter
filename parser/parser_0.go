@@ -2,6 +2,7 @@ package parser
 
 import (
 	"fmt"
+	"monkey-interpreter/ast"
 	"monkey-interpreter/lexer"
 	"monkey-interpreter/token"
 )
@@ -19,7 +20,14 @@ type Parser struct {
 }
 
 func New(l *lexer.Lexer) *Parser {
-	p := &Parser{l: l}
+	p := &Parser{
+		l:              l,
+		prefixParseFns: make(map[token.Type]prefixParseFn),
+		infixParseFns:  make(map[token.Type]infixParseFn),
+	}
+
+	p.registerPrefix(token.IDENT, p.parseIdentifier)
+
 	// 设置 curToken 和 peekToken
 	p.nextToken()
 	p.nextToken()
@@ -54,4 +62,8 @@ func (p *Parser) expectPeek(t token.Type) bool {
 
 func (p *Parser) peekTokenIs(t token.Type) bool {
 	return p.peekToken.Type == t
+}
+
+func (p *Parser) parseIdentifier() ast.Expression {
+	return &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
 }
