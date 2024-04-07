@@ -38,3 +38,28 @@ const (
 	PREFIX  // -X or !X
 	CALL    // f(x)
 )
+
+var precedences = map[token.Type]int{
+	token.EQ:       EQUALS,
+	token.NOT_EQ:   EQUALS,
+	token.LT:       COMPARE,
+	token.GT:       COMPARE,
+	token.PLUS:     SUM,
+	token.MINUS:    SUM,
+	token.SLASH:    PRODUCT,
+	token.ASTERISK: PRODUCT,
+}
+
+func (p *Parser) peekPrecedence() int {
+	if pre, ok := precedences[p.peekToken.Type]; ok {
+		return pre
+	}
+	return LOWEST
+}
+
+func (p *Parser) curPrecedence() int {
+	if pre, ok := precedences[p.peekToken.Type]; ok {
+		return pre
+	}
+	return LOWEST
+}
