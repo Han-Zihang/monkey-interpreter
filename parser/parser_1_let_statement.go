@@ -22,19 +22,3 @@ func (p *Parser) parseLetStatement() *ast.LetStatement {
 	}
 	return stmt
 }
-
-func (p *Parser) curTokenIs(t token.Type) bool {
-	return p.curToken.Type == t
-}
-
-func (p *Parser) expectPeek(t token.Type) bool {
-	if p.peekTokenIs(t) {
-		p.nextToken()
-		return true
-	}
-	return false
-}
-
-func (p *Parser) peekTokenIs(t token.Type) bool {
-	return p.peekToken.Type == t
-}
