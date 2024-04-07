@@ -8,15 +8,17 @@ import (
 )
 
 type testPrefix struct {
-	input        string
-	operator     string
-	integerValue int64
+	input    string
+	operator string
+	value    interface{}
 }
 
 func TestParsingPrefixExpressions(t *testing.T) {
 	tests := []testPrefix{
 		{"!5;", "!", 5},
 		{"-15", "-", 15},
+		{"!true;", "!", true},
+		{"!false;", "!", false},
 	}
 	for _, tt := range tests {
 		l := lexer.New(tt.input)
@@ -37,7 +39,7 @@ func TestParsingPrefixExpressions(t *testing.T) {
 		if exp.Operator != tt.operator {
 			t.Fatalf("exp.Operator is not '%s'. got=%s", tt.operator, exp.Operator)
 		}
-		if testIntegerLiteral(t, exp.Right, tt.integerValue) {
+		if testLiteralExpression(t, exp.Right, tt.value) {
 			return
 		}
 	}

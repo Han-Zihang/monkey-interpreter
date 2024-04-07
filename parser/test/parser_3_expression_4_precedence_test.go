@@ -13,14 +13,14 @@ type testOperatorPrecedence struct {
 
 func TestOperatorPrecedenceParsing(t *testing.T) {
 	tests := []testOperatorPrecedence{
-		//{
-		//	"-a * b",
-		//	"((-a) * b)",
-		//},
-		//{
-		//	"!-a",
-		//	"(!(-a))",
-		//},
+		{
+			"-a * b",
+			"((-a) * b)",
+		},
+		{
+			"!-a",
+			"(!(-a))",
+		},
 		{
 			"a + b + c",
 			"((a + b) + c)",
@@ -60,6 +60,22 @@ func TestOperatorPrecedenceParsing(t *testing.T) {
 		{
 			"3 + 4 * 5 == 3 * 1 + 4 * 5",
 			"((3 + (4 * 5)) == ((3 * 1) + (4 * 5)))",
+		},
+		{
+			"ture",
+			"ture",
+		},
+		{
+			"false",
+			"false",
+		},
+		{
+			"3 > 5 == false",
+			"((3 > 5) == false)",
+		},
+		{
+			"3 < 5 == true",
+			"((3 < 5) == true)",
 		},
 	}
 
