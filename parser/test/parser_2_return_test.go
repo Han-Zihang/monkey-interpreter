@@ -1,8 +1,9 @@
-package parser
+package test
 
 import (
 	"monkey-interpreter/ast"
 	"monkey-interpreter/lexer"
+	"monkey-interpreter/parser"
 	"testing"
 )
 
@@ -13,7 +14,7 @@ return 10;
 return 199 200;
 `
 	l := lexer.New(input)
-	p := New(l)
+	p := parser.New(l)
 	program := p.ParseProgram()
 	checkParserErrors(t, p)
 

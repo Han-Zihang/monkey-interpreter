@@ -1,8 +1,11 @@
-package parser
+package test
 
-import "testing"
+import (
+	"monkey-interpreter/parser"
+	"testing"
+)
 
-func checkParserErrors(t *testing.T, p *Parser) {
+func checkParserErrors(t *testing.T, p *parser.Parser) {
 	errs := p.Errors()
 	if len(errs) == 0 {
 		return
