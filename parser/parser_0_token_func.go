@@ -36,7 +36,7 @@ const (
 	SUM     // +
 	PRODUCT // *
 	PREFIX  // -X or !X
-	CALL    // f(x)
+	CALL    // f(X)
 )
 
 var precedences = map[token.Type]int{
@@ -58,7 +58,7 @@ func (p *Parser) peekPrecedence() int {
 }
 
 func (p *Parser) curPrecedence() int {
-	if pre, ok := precedences[p.peekToken.Type]; ok {
+	if pre, ok := precedences[p.curToken.Type]; ok {
 		return pre
 	}
 	return LOWEST
