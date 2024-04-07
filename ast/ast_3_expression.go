@@ -3,7 +3,7 @@ package ast
 import "monkey-interpreter/token"
 
 type ExpressionStatement struct {
-	Token      token.Token //	 该表达式中第一个词法单元
+	Token      token.Token // 该表达式中第一个词法单元
 	Expression Expression
 }
 
