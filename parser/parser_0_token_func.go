@@ -36,7 +36,7 @@ const (
 	SUM     // +
 	PRODUCT // *
 	PREFIX  // -X or !X
-	CALL    // f(X)
+	CALL    // f(x)
 )
 
 var precedences = map[token.Type]int{
@@ -48,7 +48,6 @@ var precedences = map[token.Type]int{
 	token.MINUS:    SUM,
 	token.SLASH:    PRODUCT,
 	token.ASTERISK: PRODUCT,
-	token.LPAREN:   CALL,
 }
 
 func (p *Parser) peekPrecedence() int {
